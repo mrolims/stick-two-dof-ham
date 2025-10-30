@@ -32,7 +32,7 @@ def create_sbatch_script(
 
 #SBATCH -t {time} -c {clusters}
 #SBATCH --mail-user=rolim.sales@unesp.br --mail-type={mail_type}
-#SBATCH --output={output_path}
+#SBATCH --output={project_root}/{output_path}
 
 export INPUT="{exe_path}"
 export OUTPUT="{data_dir}/*.dat"
