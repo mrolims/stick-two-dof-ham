@@ -16,13 +16,13 @@
 int main(int argc, char *argv[]) {
     double E = get_double(argc, argv, 1);
     size_t n_cross = get_size_t(argc, argv, 2);
-    size_t grid_size = get_size_t(argc, argv, 3);
-    double threshold = get_double(argc, argv, 4);
-    size_t n_threads = get_size_t(argc, argv, 5);
+    size_t num_y = get_size_t(argc, argv, 3);
+    double py = get_double(argc, argv, 4);
+    double threshold = get_double(argc, argv, 5);
+    size_t n_threads = get_size_t(argc, argv, 6);
 
     size_t dim_pss = 2 * DOF + 1;
     double y_range[] = {-0.5, 1.0};
-    double py_range[] = {-0.6, 0.6};
 
     const char *home = getenv("HOME");
     char path[128];
@@ -30,15 +30,15 @@ int main(int argc, char *argv[]) {
              "%s/Research/stick-two-dof-ham/data/henon_heiles", home);
     char filename[512];
     snprintf(filename, sizeof(filename),
-             "%s/grid_rte_E=%.5f_N=%zu_grid_size=%zu_eps=%.3f.dat", path, E,
-             n_cross, grid_size, threshold);
+             "%s/rte_vs_y_E=%.5f_N=%zu_num_y=%zu_py=%.5f_eps=%.3f.dat", path, E,
+             n_cross, num_y, py, threshold);
     FILE *fp = fopen(filename, "w");
     if (!fp) {
         perror("fopen");
         exit(EXIT_FAILURE);
     }
 
-    double *rte = xmalloc(grid_size * grid_size, sizeof *rte);
+    double *rte = xmalloc(num_y, sizeof *rte);
     omp_set_num_threads(n_threads);
 #pragma omp parallel
     {
@@ -48,14 +48,9 @@ int main(int argc, char *argv[]) {
         double *line_distr = xmalloc(n_cross, sizeof *line_distr);
         double *std = xmalloc(2, sizeof *std);
 #pragma omp for
-        for (size_t g = 0; g < grid_size * grid_size; g++) {
-            size_t i = g / grid_size;
-            size_t j = g % grid_size;
+        for (size_t i = 0; i < num_y; i++) {
 
-            double y =
-                y_range[0] + i * (y_range[1] - y_range[0]) / (grid_size - 1);
-            double py =
-                py_range[0] + j * (py_range[1] - py_range[0]) / (grid_size - 1);
+            double y = y_range[0] + i * (y_range[1] - y_range[0]) / (num_y - 1);
 
             double q[DOF];
             double p[DOF];
@@ -73,11 +68,11 @@ int main(int argc, char *argv[]) {
                 }
                 std = standard_deviation(n_cross, 2, reduced_pss);
                 double eps = threshold * fmax(std[0], std[1]);
-                rte[i * grid_size + j] =
+                rte[i] =
                     recurrence_time_entropy(n_cross, 2, reduced_pss, eps, 1,
                                             recmat, line_distr, NORM_MAX);
             } else
-                rte[i * grid_size + j] = NAN;
+                rte[i] = NAN;
         }
 
         free(pss);
@@ -87,14 +82,9 @@ int main(int argc, char *argv[]) {
         free(std);
     }
 
-    for (size_t i = 0; i < grid_size; i++) {
-        double y = y_range[0] + i * (y_range[1] - y_range[0]) / (grid_size - 1);
-        for (size_t j = 0; j < grid_size; j++) {
-            double py =
-                py_range[0] + j * (py_range[1] - py_range[0]) / (grid_size - 1);
-            fprintf(fp, "%.16f %.16f %.16e\n", y, py, rte[i * grid_size + j]);
-        }
-        fprintf(fp, "\n");
+    for (size_t i = 0; i < num_y; i++) {
+        double y = y_range[0] + i * (y_range[1] - y_range[0]) / (num_y - 1);
+        fprintf(fp, "%.16f %.16e\n", y, rte[i]);
     }
 
     return 0;

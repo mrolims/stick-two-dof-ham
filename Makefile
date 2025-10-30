@@ -27,6 +27,10 @@ else ifeq ($(DSYS),SP)
 	SIM_FOLDER = simulations/spring_pendulum
 endif
 
+
+energy_error_check:
+	$(CC) $(CFLAGS) $(SRC_FILES) $(SIM_FOLDER)/energy_error_check.c -o $(SIM_FOLDER)/energy_error_check.x $(LDFLAGS)
+
 poincare_section:
 	$(CC) $(CFLAGS) $(SRC_FILES) $(SIM_FOLDER)/poincare_section.c -o $(SIM_FOLDER)/poincare_section.x $(LDFLAGS)
 
@@ -38,6 +42,9 @@ mle_vs_y:
 
 grid_rte:
 	$(CC) $(CFLAGS) $(SRC_FILES) $(SIM_FOLDER)/grid_rte.c -o $(SIM_FOLDER)/grid_rte.x $(LDFLAGS)
+
+rte_vs_y:
+	$(CC) $(CFLAGS) $(SRC_FILES) $(SIM_FOLDER)/rte_vs_y.c -o $(SIM_FOLDER)/rte_vs_y.x $(LDFLAGS)
 
 clean:
 	rm -rf $(SIM_FOLDER)/*.x

@@ -3,10 +3,11 @@ import sys
 
 from utils import compile_target, create_sbatch_script
 
-ENERGIES = [1 / 8]
+ENERGIES = [1 / i for i in range(6, 11)]
 N_CROSS = 5000
-GRID_SIZE = 540
+GRID_SIZE = 1000
 N_THREADS = 10
+THRESHOLD = 0.05
 
 DSYS = "HH"
 CC = "cc"
@@ -27,6 +28,8 @@ TIME = "24:00:00"
 SBATCH_SCRIPT = create_sbatch_script(TARGET, TARGET_FOLDER, TIME, clusters=N_THREADS)
 
 for e in ENERGIES:
-    CMD = f"sbatch {SBATCH_SCRIPT} {e:.16f} {N_CROSS} {GRID_SIZE} {N_THREADS}"
+    CMD = (
+        f"sbatch {SBATCH_SCRIPT} {e:.16f} {N_CROSS} {GRID_SIZE} {THRESHOLD} {N_THREADS}"
+    )
     print(CMD)
     os.system(CMD)

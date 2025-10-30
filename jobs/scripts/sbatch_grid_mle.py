@@ -3,9 +3,9 @@ import sys
 
 from utils import compile_target, create_sbatch_script
 
-ENERGIES = [1 / 8]
+ENERGIES = [1 / i for i in range(6, 11)]
 TOTAL_TIME = 1e4
-GRID_SIZE = 540
+GRID_SIZE = 1000
 N_THREADS = 10
 
 DSYS = "HH"
