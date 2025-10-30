@@ -1,0 +1,7 @@
+data/
+logs/
+
+.DS_Store
+*.x
+*.out
+.models.py
