@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 
 #SBATCH -t 24:00:00 -c 10
 #SBATCH --mail-user=rolim.sales@unesp.br --mail-type=END,FAIL

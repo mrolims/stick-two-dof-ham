@@ -21,13 +21,10 @@ else:
     sys.exit()
 compile_target(TARGET, cc=CC, dsys=DSYS)
 
-SBATCH_SCRIPT = f"../sbatch/{TARGET}.sh"
 TIME = "24:00:00"
-SCRIPT_TEXT = create_sbatch_script(TARGET, TARGET_FOLDER, TIME, clusters=N_THREADS)
-with open(f"{SBATCH_SCRIPT}", "w") as f:
-    f.write(SCRIPT_TEXT)
+SBATCH_SCRIPT = create_sbatch_script(TARGET, TARGET_FOLDER, TIME, clusters=N_THREADS)
 
 for e in ENERGIES:
     CMD = f"sbatch {SBATCH_SCRIPT} {e:.16f} {TOTAL_TIME} {GRID_SIZE} {N_THREADS}"
     print(CMD)
-    os.system(CMD)
+    # os.system(CMD)
