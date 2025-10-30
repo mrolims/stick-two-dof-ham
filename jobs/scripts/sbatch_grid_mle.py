@@ -10,6 +10,8 @@ N_THREADS = 10
 
 DSYS = "HH"
 CC = "cc"
+if len(sys.argv) > 1:
+    CC = sys.argv[1]
 TARGET = "grid_mle"
 
 if DSYS == "HH":
