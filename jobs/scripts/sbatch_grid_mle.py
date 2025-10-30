@@ -4,9 +4,9 @@ import sys
 from utils import compile_target, create_sbatch_script
 
 ENERGIES = [1 / i for i in range(6, 11)]
-TOTAL_TIME = 1e4
+TOTAL_TIMES = [1e4, 1e5]
 GRID_SIZE = 1000
-N_THREADS = 10
+N_THREADS = 15
 
 DSYS = "HH"
 CC = "cc"
@@ -26,7 +26,8 @@ compile_target(TARGET, cc=CC, dsys=DSYS)
 TIME = "24:00:00"
 SBATCH_SCRIPT = create_sbatch_script(TARGET, TARGET_FOLDER, TIME, clusters=N_THREADS)
 
-for e in ENERGIES:
-    CMD = f"sbatch {SBATCH_SCRIPT} {e:.16f} {TOTAL_TIME} {GRID_SIZE} {N_THREADS}"
-    print(CMD)
-    os.system(CMD)
+for total_time in TOTAL_TIMES:
+    for e in ENERGIES:
+        CMD = f"sbatch {SBATCH_SCRIPT} {e:.16f} {total_time} {GRID_SIZE} {N_THREADS}"
+        print(CMD)
+        os.system(CMD)

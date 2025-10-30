@@ -34,6 +34,9 @@ energy_error_check:
 poincare_section:
 	$(CC) $(CFLAGS) $(SRC_FILES) $(SIM_FOLDER)/poincare_section.c -o $(SIM_FOLDER)/poincare_section.x $(LDFLAGS)
 
+pss_recmat:
+	$(CC) $(CFLAGS) $(SRC_FILES) $(SIM_FOLDER)/pss_recmat.c -o $(SIM_FOLDER)/pss_recmat.x $(LDFLAGS)
+
 grid_mle:
 	$(CC) $(CFLAGS) $(SRC_FILES) $(SIM_FOLDER)/grid_mle.c -o $(SIM_FOLDER)/grid_mle.x $(LDFLAGS)
 
@@ -45,6 +48,12 @@ grid_rte:
 
 rte_vs_y:
 	$(CC) $(CFLAGS) $(SRC_FILES) $(SIM_FOLDER)/rte_vs_y.c -o $(SIM_FOLDER)/rte_vs_y.x $(LDFLAGS)
+
+cgbd_mle:
+	$(CC) $(CFLAGS) $(SRC_FILES) $(SIM_FOLDER)/cgbd_mle.c -o $(SIM_FOLDER)/cgbd_mle.x $(LDFLAGS)
+
+cgbd_rte:
+	$(CC) $(CFLAGS) $(SRC_FILES) $(SIM_FOLDER)/cgbd_rte.c -o $(SIM_FOLDER)/cgbd_rte.x $(LDFLAGS)
 
 clean:
 	rm -rf $(SIM_FOLDER)/*.x
