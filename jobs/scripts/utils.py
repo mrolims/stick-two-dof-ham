@@ -8,7 +8,7 @@ def create_sbatch_script(
     time,
     clusters=1,
     mail_type="END,FAIL",
-    output_path="logs/slurm/%x_%j.out",
+    logs_path="logs/slurm",
 ):
     """
     Create and write an sbatch script that runs a compiled simulation,
@@ -23,6 +23,10 @@ def create_sbatch_script(
     # Resolve absolute paths for executable and data
     exe_path = (project_root / target_folder / f"{target}.x").resolve()
     data_dir = (project_root / "data").resolve()
+    logs_path = (project_root / logs_path).resolve()
+
+    if not Path.is_dir(logs_path):
+        Path.mkdir(logs_path, parents=True)
 
     # Destination .sh file
     sbatch_path = sbatch_dir / f"{target}.sh"
@@ -32,7 +36,7 @@ def create_sbatch_script(
 
 #SBATCH -t {time} -c {clusters}
 #SBATCH --mail-user=rolim.sales@unesp.br --mail-type={mail_type}
-#SBATCH --output={project_root}/{output_path}
+#SBATCH --output={logs_path}/%x_%j.out
 
 export INPUT="{exe_path}"
 export OUTPUT="{data_dir}/*.dat"

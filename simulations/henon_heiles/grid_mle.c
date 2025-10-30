@@ -3,6 +3,7 @@
 #include "../../include/models.h"
 #include "../../include/parse_args.h"
 
+#include <math.h>
 #include <omp.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -54,7 +55,8 @@ int main(int argc, char *argv[]) {
         if (info == 0) {
             mle[i * grid_size + j] = calculate_mle(
                 q, p, NULL, total_time, TIME_STEP, 1, HH_grad_V, HH_hess_V);
-        }
+        } else
+            mle[i * grid_size + j] = NAN;
     }
 
     for (size_t i = 0; i < grid_size; i++) {
