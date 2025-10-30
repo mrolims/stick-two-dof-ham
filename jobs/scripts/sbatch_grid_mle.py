@@ -15,9 +15,9 @@ if len(sys.argv) > 1:
 TARGET = "grid_mle"
 
 if DSYS == "HH":
-    TARGET_FOLDER = "../../simulations/henon_heiles"
+    TARGET_FOLDER = "simulations/henon_heiles"
 elif DSYS == "SP":
-    TARGET_FOLDER = "../../simulations/spring_pendulum"
+    TARGET_FOLDER = "simulations/spring_pendulum"
 else:
     TAGET_FOLDER = None
     sys.exit()
