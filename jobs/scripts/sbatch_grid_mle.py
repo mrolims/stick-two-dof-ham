@@ -29,4 +29,4 @@ SBATCH_SCRIPT = create_sbatch_script(TARGET, TARGET_FOLDER, TIME, clusters=N_THR
 for e in ENERGIES:
     CMD = f"sbatch {SBATCH_SCRIPT} {e:.16f} {TOTAL_TIME} {GRID_SIZE} {N_THREADS}"
     print(CMD)
-    # os.system(CMD)
+    os.system(CMD)
