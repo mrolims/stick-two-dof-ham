@@ -55,5 +55,11 @@ cgbd_mle:
 cgbd_rte:
 	$(CC) $(CFLAGS) $(SRC_FILES) $(SIM_FOLDER)/cgbd_rte.c -o $(SIM_FOLDER)/cgbd_rte.x $(LDFLAGS)
 
+finite_time_mle:
+	$(CC) $(CFLAGS) $(SRC_FILES) $(SIM_FOLDER)/finite_time_mle.c -o $(SIM_FOLDER)/finite_time_mle.x $(LDFLAGS)
+
+finite_time_rte:
+	$(CC) $(CFLAGS) $(SRC_FILES) $(SIM_FOLDER)/finite_time_rte.c -o $(SIM_FOLDER)/finite_time_rte.x $(LDFLAGS)
+
 clean:
 	rm -rf $(SIM_FOLDER)/*.x
